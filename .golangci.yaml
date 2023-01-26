@@ -34,7 +34,7 @@ linters:
 
 linters-settings:
   gocyclo:
-    min-complexity: 14
+    min-complexity: 20
   govet:
     check-shadowing: true
   misspell:

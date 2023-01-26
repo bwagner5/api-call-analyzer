@@ -181,7 +181,7 @@ func parseTimeOrDuration(input string) (time.Time, error) {
 	if err != nil {
 		dur, derr := time.ParseDuration(input)
 		if derr != nil {
-			return time.Time{}, fmt.Errorf("unable to parse as RFC3339 time or duration. Time Err: %v Duration Err: %v", err, derr)
+			return time.Time{}, fmt.Errorf("unable to parse as RFC3339 time or duration. Time Err: %w Duration Err: %w", err, derr)
 		}
 		return time.Now().Add(-1 * dur), nil
 	}

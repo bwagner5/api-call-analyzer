@@ -33,11 +33,11 @@ Flags:
 aca --start-time 5m --call-source eks.amazonaws.com -o chart
 2023/01/26 14:24:30 Filtered to 214 events out of 376
 EVENT SOURCE     	API       	CALL SOURCE      	IDENTITY                                                       	USER AGENT
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
 ...
 ```
 
@@ -45,11 +45,11 @@ ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2
 aca --start-time 5m --api DescribeInstances  -o chart
 2023/01/26 14:24:30 Filtered to 214 events out of 376
 EVENT SOURCE     	API       	CALL SOURCE      	IDENTITY                                                       	USER AGENT
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
-ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2-clus-ServiceRole-IB35YPKTQQ3W	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
+ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-my-demo-us-east-2-clus-ServiceRole-012345678901234567	eks.amazonaws.com
 ...
 ```
 
@@ -57,22 +57,22 @@ ec2.amazonaws.com	CreateTags	eks.amazonaws.com	eksctl-lambda-link-demo-us-east-2
 aca --start-time 5m --user-agent 'karpenter.sh-v0.23.0' -o chart
 2023/01/26 14:27:20 Filtered to 9 events out of 405
 EVENT SOURCE     	API                          	CALL SOURCE	IDENTITY                                  	USER AGENT
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeSubnets              	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeSubnets              	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
-ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	wagnerbm-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeSubnets              	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypes        	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeSubnets              	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
+ec2.amazonaws.com	DescribeInstanceTypeOfferings	3.22.70.109	username-karpenter-dev-us-east-2-karpenter	aws-sdk-go/1.44.154 (go1.19.4; linux; amd64) karpenter.sh-v0.23.0-3-gaece5998
 ```
