@@ -20,6 +20,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -61,7 +63,14 @@ type Options struct {
 var (
 	OutputJSON  = "json"
 	OutputChart = "chart"
+	OutputStats = "stats"
 )
+
+type Stat struct {
+	EventSource string `json:"eventSource"`
+	API         string `json:"api"`
+	Calls       int    `json:"calls"`
+}
 
 type CloudTrailEvent struct {
 	EventVersion       string       `json:"eventVersion"`
@@ -134,9 +143,14 @@ var rootCmd = &cobra.Command{
 			log.Printf("All %d events did not match your filters\n", total)
 			os.Exit(1)
 		}
-		log.Printf("Filtered to %d events out of %d\n", len(events), total)
+
+		log.Printf("Filtered to %d events out of %d. The last event's timestamp is %s and the endtime filter was %s\n",
+			len(events), total, events[len(events)-1].EventTime, opts.EndTime.UTC().Format(time.RFC3339))
 		if opts.Output == OutputChart {
 			outputChart(events)
+		} else if opts.Output == OutputStats {
+			stats := computeStats(events)
+			outputStatsChart(stats)
 		} else {
 			outputJSON(events)
 		}
@@ -145,14 +159,14 @@ var rootCmd = &cobra.Command{
 
 func main() {
 	rootCmd.PersistentFlags().StringVarP(&opts.Region, "region", "r", "", "AWS Region")
-	rootCmd.PersistentFlags().StringVarP(&opts.Output, "output", "o", "json", "Output (json|chart) Default: json")
+	rootCmd.PersistentFlags().StringVarP(&opts.Output, "output", "o", "json", "Output (json|chart|stats) Default: json")
 
 	rootCmd.PersistentFlags().StringVarP(&opts.CallSource, "call-source", "c", "", "CallSource maps to SourceIP in CloudTrail but AWS services will include a named source IP like eks.amazonaws.com or autoscaling.amazonaws.com")
 	rootCmd.PersistentFlags().StringVar(&opts.EventSource, "event-source", "", "EventSource is the top-level service where the API call is made from (i.e. ec2.amazonaws.com)")
 	rootCmd.PersistentFlags().StringVarP(&opts.API, "api", "a", "", "API maps to EventName within CloudTrail Examples are DescribeInstances, TerminateInstances, etc")
 	rootCmd.PersistentFlags().StringVarP(&opts.IdentityUserName, "identity-user-name", "i", "", "IdentityUserName is included in the CloudTrailEvent.userIdentity.sessionContext.sessionIssuer.userName and is useful to scope the filtering to a specific instance of an application making API calls")
-	rootCmd.PersistentFlags().StringVarP(&opts.startTime, "start-time", "s", time.Now().Add(-30*time.Minute).Format(time.RFC3339), "Start time for event filtering. Default: now")
-	rootCmd.PersistentFlags().StringVarP(&opts.endTime, "end-time", "e", time.Now().Format(time.RFC3339), "End time for event filtering. Default: 30m ago")
+	rootCmd.PersistentFlags().StringVarP(&opts.startTime, "start-time", "s", time.Now().Add(-30*time.Minute).UTC().Format(time.RFC3339), "Start time for event filtering. Default: now")
+	rootCmd.PersistentFlags().StringVarP(&opts.endTime, "end-time", "e", time.Now().UTC().Format(time.RFC3339), "End time for event filtering. Default: 30m ago")
 	rootCmd.PersistentFlags().StringVarP(&opts.UserAgent, "user-agent", "u", "", "UserAgent partial will check if the passed string is contained within the user-agent field")
 
 	ctx := context.Background()
@@ -246,6 +260,17 @@ func filterEvents(ctx context.Context, opts *Options) (int, []*CloudTrailEvent, 
 			filteredEvents = append(filteredEvents, ctEvent)
 		}
 	}
+	sort.Slice(filteredEvents, func(i, j int) bool {
+		ti, err := time.Parse(time.RFC3339, filteredEvents[i].EventTime)
+		if err != nil {
+			return true
+		}
+		tj, err := time.Parse(time.RFC3339, filteredEvents[j].EventTime)
+		if err != nil {
+			return true
+		}
+		return ti.Before(tj)
+	})
 	return rawEvents, filteredEvents, nil
 }
 
@@ -260,10 +285,11 @@ func outputJSON(events []*CloudTrailEvent) {
 
 func outputChart(events []*CloudTrailEvent) {
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Event Source", "API", "Call Source", "Identity", "User Agent"})
+	table.SetHeader([]string{"Start Time", "Event Source", "API", "Call Source", "Identity", "User Agent"})
 	data := [][]string{}
 	for _, event := range events {
 		data = append(data, []string{
+			event.EventTime,
 			event.EventSource,
 			event.EventName,
 			event.SourceIPAddress,
@@ -281,10 +307,57 @@ func outputChart(events []*CloudTrailEvent) {
 	table.SetRowSeparator("")
 	table.SetHeaderLine(false)
 	table.SetBorder(false)
-	table.SetTablePadding("\t") // pad with tabs
+	table.SetTablePadding("    ") // pad with tabs
 	table.SetNoWhiteSpace(true)
 	table.AppendBulk(data) // Add Bulk Data
+	table.Render()
+}
 
+func computeStats(events []*CloudTrailEvent) []*Stat {
+	stats := map[string]*Stat{}
+	var statsList []*Stat
+	for _, event := range events {
+		key := fmt.Sprintf("%s:%s", event.EventSource, event.EventName)
+		stat, ok := stats[key]
+		if !ok {
+			stat = &Stat{EventSource: event.EventSource, API: event.EventName}
+			stats[key] = stat
+			statsList = append(statsList, stat)
+		}
+		stat.Calls++
+	}
+	sort.Slice(statsList, func(i, j int) bool {
+		return statsList[i].Calls < statsList[j].Calls
+	})
+	return statsList
+}
+
+func outputStatsChart(stats []*Stat) {
+	table := tablewriter.NewWriter(os.Stdout)
+	totalCalls := 0
+	table.SetHeader([]string{"Event Source", "API", "Calls"})
+	data := [][]string{}
+	for _, stat := range stats {
+		data = append(data, []string{
+			stat.EventSource,
+			stat.API,
+			strconv.Itoa(stat.Calls),
+		})
+		totalCalls += stat.Calls
+	}
+
+	table.SetAutoWrapText(false)
+	table.SetAutoFormatHeaders(true)
+	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.SetCenterSeparator("")
+	table.SetColumnSeparator("")
+	table.SetRowSeparator("")
+	table.SetHeaderLine(false)
+	table.SetBorder(false)
+	table.SetTablePadding("    ")
+	table.SetNoWhiteSpace(true)
 	table.AppendBulk(data) // Add Bulk Data
+	table.SetFooter([]string{"", "TOTAL", strconv.Itoa(totalCalls)})
 	table.Render()
 }
