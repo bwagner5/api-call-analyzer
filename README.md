@@ -26,6 +26,33 @@ Flags:
   -u, --user-agent string           UserAgent partial will check if the passed string is contained within the user-agent field
 ```
 
+## Installation
+
+Packages, binaries, and archives are published for all major platforms (Mac amd64/arm64 & Linux amd64/arm64):
+
+Debian / Ubuntu:
+
+```
+[[ `uname -m` == "aarch64" ]] && ARCH="arm64" || ARCH="amd64"
+wget https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.1/api-call-analyzer_0.0.1_linux_${ARCH}.deb
+dpkg --install aca_0.0.1_linux_${ARCH}.deb
+```
+
+RedHat:
+
+```
+[[ `uname -m` == "aarch64" ]] && ARCH="arm64" || ARCH="amd64"
+rpm -i https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.1/api-call-analyzer_0.0.1_linux_${ARCH}.rpm
+```
+
+Download Binary Directly (Linux / Mac):
+
+```
+[[ `uname -m` == "aarch64" ]] && ARCH="arm64" || ARCH="amd64"
+OS=`uname | tr '[:upper:]' '[:lower:]'`
+wget -qO- https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.1/api-call-analyzer_0.0.1_${OS}_${ARCH}.tar.gz | tar xvz
+chmod +x aca
+```
 
 ## Examples:
 
