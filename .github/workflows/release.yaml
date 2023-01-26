@@ -48,6 +48,7 @@ jobs:
           name: aca
           path: dist/*
       - run: |
+          make update-readme
           RELEASE_VERSION=${GITHUB_REF#refs/*/}
           git config user.name "Release"
           git config user.email "release@users.noreply.github.com"
