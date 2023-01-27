@@ -37,15 +37,15 @@ Debian / Ubuntu:
 
 ```
 [[ `uname -m` == "aarch64" ]] && ARCH="arm64" || ARCH="amd64"
-wget https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.3/api-call-analyzer_0.0.3_linux_${ARCH}.deb
-dpkg --install aca_0.0.3_linux_${ARCH}.deb
+wget https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.4/api-call-analyzer_0.0.4_linux_${ARCH}.deb
+dpkg --install aca_0.0.4_linux_${ARCH}.deb
 ```
 
 RedHat:
 
 ```
 [[ `uname -m` == "aarch64" ]] && ARCH="arm64" || ARCH="amd64"
-rpm -i https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.3/api-call-analyzer_0.0.3_linux_${ARCH}.rpm
+rpm -i https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.4/api-call-analyzer_0.0.4_linux_${ARCH}.rpm
 ```
 
 Download Binary Directly (Linux / Mac):
@@ -53,7 +53,7 @@ Download Binary Directly (Linux / Mac):
 ```
 [[ `uname -m` == "aarch64" ]] && ARCH="arm64" || ARCH="amd64"
 OS=`uname | tr '[:upper:]' '[:lower:]'`
-wget -qO- https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.3/api-call-analyzer_0.0.3_${OS}_${ARCH}.tar.gz | tar xvz
+wget -qO- https://github.com/bwagner5/api-call-analyzer/releases/download/v0.0.4/api-call-analyzer_0.0.4_${OS}_${ARCH}.tar.gz | tar xvz
 chmod +x aca
 ```
 
