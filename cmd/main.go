@@ -18,6 +18,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"sort"
@@ -58,6 +59,10 @@ type Options struct {
 	Version bool
 	// Output json or chart
 	Output string
+	// File of json cloudtrail events to process rather than calling the cloudtrail API
+	File string
+	// Save will output the filtered json events to a file for further processing or inspection
+	Save string
 }
 
 var (
@@ -135,13 +140,53 @@ var rootCmd = &cobra.Command{
 			fmt.Printf("Commit: %s\n", commit)
 			return
 		}
-		total, events, err := filterEvents(cmd.Context(), processOpts(opts))
-		if err != nil {
-			log.Fatalln(err.Error())
+		var events []*CloudTrailEvent
+		var total int
+		var err error
+
+		// Process events from a local file
+		if opts.File != "" {
+			file, err := os.Open(opts.File)
+			if err != nil {
+				log.Fatalf("failed reading file: %s", err)
+			}
+			defer file.Close()
+			eventData, err := io.ReadAll(file)
+			if err != nil {
+				log.Fatalf("unable to read json events from file %s: %v", opts.File, err)
+			}
+			if err := json.Unmarshal(eventData, &events); err != nil {
+				log.Fatalf("unable to parse json events from file %s: %v", opts.File, err)
+			}
+			total = len(events)
+		} else { // Process events from the CloudTrail API
+			total, events, err = filterEvents(cmd.Context(), processOpts(opts))
+			if err != nil {
+				log.Fatalln(err.Error())
+			}
+			if len(events) == 0 {
+				log.Printf("All %d events did not match your filters\n", total)
+				os.Exit(1)
+			}
 		}
-		if len(events) == 0 {
-			log.Printf("All %d events did not match your filters\n", total)
-			os.Exit(1)
+
+		var outputFile *os.File
+		if opts.Save == "" {
+			outputFile, err = os.CreateTemp("", "aca")
+			if err != nil {
+				log.Printf("unable to open temp file, in dir %s, to output events: %v\n", os.TempDir(), err)
+			}
+		} else {
+			outputFile, err = os.Create(opts.Save)
+			if err != nil {
+				log.Printf("unable to open temp file (%s) to output events: %v\n", opts.Save, err)
+			}
+		}
+
+		if err := writeEvents(events, outputFile); err != nil {
+			log.Printf("unable to write events to file %s: %v\n", outputFile.Name(), err)
+		} else {
+			log.Printf("wrote events to file %s\n", outputFile.Name())
 		}
 
 		log.Printf("Filtered to %d events out of %d. The last event's timestamp is %s and the endtime filter was %s\n",
@@ -152,7 +197,7 @@ var rootCmd = &cobra.Command{
 			stats := computeStats(events)
 			outputStatsChart(stats)
 		} else {
-			outputJSON(events)
+			fmt.Println(asJSON(events))
 		}
 	},
 }
@@ -160,6 +205,9 @@ var rootCmd = &cobra.Command{
 func main() {
 	rootCmd.PersistentFlags().StringVarP(&opts.Region, "region", "r", "", "AWS Region")
 	rootCmd.PersistentFlags().StringVarP(&opts.Output, "output", "o", "json", "Output (json|chart|stats) Default: json")
+	rootCmd.PersistentFlags().BoolVarP(&opts.Version, "version", "v", false, "Version information")
+	rootCmd.PersistentFlags().StringVarP(&opts.File, "file", "f", "", "File of json cloudtrail events to process")
+	rootCmd.PersistentFlags().StringVar(&opts.Save, "save", "", "Save filtered json events to a file. Default: a temp directory")
 
 	rootCmd.PersistentFlags().StringVarP(&opts.CallSource, "call-source", "c", "", "CallSource maps to SourceIP in CloudTrail but AWS services will include a named source IP like eks.amazonaws.com or autoscaling.amazonaws.com")
 	rootCmd.PersistentFlags().StringVar(&opts.EventSource, "event-source", "", "EventSource is the top-level service where the API call is made from (i.e. ec2.amazonaws.com)")
@@ -274,13 +322,12 @@ func filterEvents(ctx context.Context, opts *Options) (int, []*CloudTrailEvent, 
 	return rawEvents, filteredEvents, nil
 }
 
-func outputJSON(events []*CloudTrailEvent) {
-	log.Printf("Found %d events\n", len(events))
+func asJSON(events []*CloudTrailEvent) string {
 	eventsJSON, err := json.MarshalIndent(events, "", "    ")
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	fmt.Println(string(eventsJSON))
+	return string(eventsJSON)
 }
 
 func outputChart(events []*CloudTrailEvent) {
@@ -360,4 +407,9 @@ func outputStatsChart(stats []*Stat) {
 	table.AppendBulk(data) // Add Bulk Data
 	table.SetFooter([]string{"", "TOTAL", strconv.Itoa(totalCalls)})
 	table.Render()
+}
+
+func writeEvents(events []*CloudTrailEvent, file *os.File) error {
+	_, err := file.WriteString(asJSON(events))
+	return err
 }

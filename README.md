@@ -16,14 +16,17 @@ Examples:
 Flags:
   -a, --api string                  API maps to EventName within CloudTrail Examples are DescribeInstances, TerminateInstances, etc
   -c, --call-source string          CallSource maps to SourceIP in CloudTrail but AWS services will include a named source IP like eks.amazonaws.com or autoscaling.amazonaws.com
-  -e, --end-time string             End time for event filtering. Default: 30m ago (default "2023-01-26T14:28:12-06:00")
+  -e, --end-time string             End time for event filtering. Default: 30m ago (default "2023-01-27T17:32:20Z")
       --event-source string         EventSource is the top-level service where the API call is made from (i.e. ec2.amazonaws.com)
+  -f, --file string                 File of json cloudtrail events to process
   -h, --help                        help for aca
   -i, --identity-user-name string   IdentityUserName is included in the CloudTrailEvent.userIdentity.sessionContext.sessionIssuer.userName and is useful to scope the filtering to a specific instance of an application making API calls
-  -o, --output string               Output (json|chart) Default: json (default "json")
+  -o, --output string               Output (json|chart|stats) Default: json (default "json")
   -r, --region string               AWS Region
-  -s, --start-time string           Start time for event filtering. Default: now (default "2023-01-26T13:58:12-06:00")
+      --save string                 Save filtered json events to a file. Default: a temp directory
+  -s, --start-time string           Start time for event filtering. Default: now (default "2023-01-27T17:02:20Z")
   -u, --user-agent string           UserAgent partial will check if the passed string is contained within the user-agent field
+  -v, --version                     Verison information
 ```
 
 ## Installation
