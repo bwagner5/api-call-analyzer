@@ -15,8 +15,8 @@ github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.23 h1:b/Vn141DBuLVgXbhRW
 github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.23/go.mod h1:mr6c4cHC+S/MMkrjtSlG4QA36kOznDep+0fga5L/fGQ=
 github.com/aws/aws-sdk-go-v2/internal/ini v1.3.29 h1:J4xhFd6zHhdF9jPP0FQJ6WknzBboGMBNjKOv4iTuw4A=
 github.com/aws/aws-sdk-go-v2/internal/ini v1.3.29/go.mod h1:TwuqRBGzxjQJIwH16/fOZodwXt2Zxa9/cwJC5ke4j7s=
-github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.24.1 h1:+YcYe5HjYGKCBWWRCHIjD0elMUGkuhCrkeWDM4DhnqY=
-github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.24.1/go.mod h1:TUyo0xj0z79cbIcLwESK9Toc/G2K4GGwMrBI+G7jvpk=
+github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.24.2 h1:78Vd89OAhyNAvnxYrvG+KDS1JRhAw9FVnqwUvRIv750=
+github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.24.2/go.mod h1:TUyo0xj0z79cbIcLwESK9Toc/G2K4GGwMrBI+G7jvpk=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.22 h1:LjFQf8hFuMO22HkV5VWGLBvmCLBCLPivUAmpdpnp4Vs=
 github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.9.22/go.mod h1:xt0Au8yPIwYXf/GYPy/vl4K3CgwhfQMYbrH7DlUUIws=
 github.com/aws/aws-sdk-go-v2/service/sso v1.12.2 h1:EN102fWY7hI5u/2FPheTrwwMHkSXfl49RYkeEnJsrCU=

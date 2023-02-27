@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/aws/aws-sdk-go-v2/config v1.18.13
-	github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.24.1
+	github.com/aws/aws-sdk-go-v2/service/cloudtrail v1.24.2
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.6.1
 )
